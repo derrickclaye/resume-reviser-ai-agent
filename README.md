@@ -1,5 +1,7 @@
 # 🤖 AI-Powered Resume & Job Match Optimizer (n8n Workflow)
 
+<img width="1476" height="550" alt="workflow" src="https://github.com/user-attachments/assets/50348187-1775-417c-b99a-ca3b232b8fae" />
+
 ## Get Instant, AI-Driven Feedback to Perfectly Tailor Your Resume for Any Job Posting!
 
 Navigating the modern job market often means meticulously tailoring your resume for each application. This n8n workflow automates that tedious and time-consuming process by leveraging the power of Large Language Models (LLMs) to provide intelligent, actionable feedback.
