@@ -1,0 +1,226 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Resume Refiner",
+        "formDescription": "Upload your resume and provide a job link in order to tailor your resume to the job description.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Resume",
+              "fieldType": "file",
+              "multipleFiles": false,
+              "acceptFileTypes": ".docx, .doc, .rtf, .txt., .pages",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Job",
+              "placeholder": "Paste Job Link ",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "placeholder": "Your Email",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "94f6cdd3-d40f-4c55-968f-8362f1481a6a",
+      "name": "On form submission",
+      "webhookId": "dc618b0b-fc30-48d8-b266-72a1e01fc97b"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.Job }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "e5051e4e-6f03-4564-a195-80b1bd1a1117",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Your are an expert at aiding professionals with creating and editing their resumes. Your task is defined by the 3 steps below.\nStep 1: Analyze the following resume - {{ $('On form submission').item.json.Resume }}\n\nStep 2: Familiarize yourself with the content in {{ $json.data }}. For more context, the data provided is a job posting.\n\nStep 3. Compare the resume provided in **Step 1** with the job posting data from **Step 2** and provide feedback on how to tailor the resume provided in **Step 1** to give the applicant the best chance of meeting the job description's qualifications. \n\nIn terms of the actual feedback I want you to:\n3a: Edit the **Summary/Objective** from the resume to reflect the job posting and role they are applying for. If the resume does not have a summary/objective then create one. \n3b: See if any skills included in the resume match those in the job post and create experience bullet points that reflect the role's job responsilbilites. (5 max)\n3c. Provide any additional feedback you might have in the form of bullet points. (7 max)\n3d. Identify what skills my resume lacks that are required in the job post in the form of bullet points. Identify specific skills, concepts or technologies. Limit each bullet to one item. Ensure that you are not including skills or keywords present in {{ $('On form submission').item.json.Resume }} \n3e. Generate a cover letter that aligns with the job post and the provided resume. Only focus on the actual cover letter content itself. Do not worry about the header, contact information, salutation or signature.\nFormat the response as such:\nJob-Details: [ company, job title, location, type, compensation ]\nSummary: [ response from Step 3a ]\nSkills-Bullets: [ response from 3b ]\nFeedback: [ response from 3c ]\nSkills-Lacking: [ response from 3d ]\nCover-Letter: [ response from 3e]\n\n",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "8075668f-ddd8-4fc6-8cbb-6e21e33cb369",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        288,
+        208
+      ],
+      "id": "4ffc8278-5c2f-40db-8ced-8213c3656c2d",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "KRzcRfK2OLPfDTcr",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"job-details\": {\n    \"company\": \"Meta\",\n    \"title\": \"Software Engineer, Machine Learning\",\n    \"location\": \"Sunnyvale, CA\",\n    \"type\": \"Full Time\",\n    \"compnensation\": \"$208,000/year + bonus + equity + benefits\"\n  },\n  \"summary\": \"Highly motivated and results-oriented JavaScript developer with 5 years of experience in building and maintaining web and mobile applications using React and React native. Passionate about creating user-centric experiences and delivering high-quality, performant code. Proficient in front-end development best practices, agile methodologies, and collaborating with cross-functional teams.\",\n  \"skills-bullets\": [\n  \"Developed and maintained Alani Baby Tracker, a baby tracking app using React and React Native\",\n  \"Implemented features for offline pump notifications and multiple baby support, resulting in 250% increase in monthly downloads.\",\n  \"Collaborated with designers and product managers to translate wireframes and user stories into production-ready code.\",\n  \"Conducted code reviews and provided constructive feedback to other developers.\",\n  \"Led the development of a component library to improve code reusability and consistency.\",\n  \"Deployed and maintained applications on Firebase, ensuring high performance and scalability.\"\n],\n  \"feedback\": [\n  \"Highlight experience in building automated deployment pipelines using Git, GitHub, AWS services, Jenkins, Docker, Kubernetes, and Terraform.\",\n  \"Emphasize optimizing continuous integration and deployment pipelines using Docker, Kubernetes, Helm, Ansible, and serverless components.\",\n  \"Showcase skills in providing efficient donor support via email and callbacks, coordinating with stakeholders, and developing resources like Donor Issue Guides.\",\n  \"Feature experience in creating Customer Inquiry Guides and managing order requests and customer inquiries in a sales support role.\",\n  \"Highlight internship roles involving data analysis, metrics tracking, and collaborating with stakeholders for project success.\",\n  \"Emphasize proficiency in programming languages (Linux, Bash, Python) and technical skills (MS Office, Google Drive, etc.), including familiarity with Looker, GitHub, Jenkins, and AWS.\",\n  \"Showcase language skills in Polish, German, and Spanish.\"\n],\n  \"skills-lacking\": [\n  \"debugging in C/C++ and Java\",\n  \"architectural patterns of large scale software applications\",\n  \"PyTorch\",\n  \"TensorFlow\"\n],\n  \"cover-letter\": \"I am writing to express my profound interest in the Software Engineer, Machine Learning position at Meta, as advertised on [Platform where you saw the advertisement, e.g., LinkedIn, Meta Careers website]. With a robust background in developing scalable software solutions, optimizing machine learning models, and building robust infrastructure, I am confident that my skills and passion align perfectly with Meta's mission to connect billions of people worldwide through innovative experiences.\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        592,
+        208
+      ],
+      "id": "55dbf617-9a17-4872-abb7-0bd47cad7cbd",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('On form submission').item.json.Email }}",
+        "subject": "=Resume Revisions for: {{ $('AI Agent').item.json.output[\"job-details\"].title }}",
+        "message": "=<div>\n  <h2>{{ $('AI Agent').item.json.output[\"job-details\"].title }}</h2>\n  <h4>Company: {{ $('AI Agent').item.json.output['job-details'].company }}</h4>\n  <h4>Location: {{ $('AI Agent').item.json.output[\"job-details\"].location }}</h4>\n  <h4>Type: {{ $('AI Agent').item.json.output[\"job-details\"].type }}</h4>\n  <h4>Compensation: {{ $('AI Agent').item.json.output[\"job-details\"].compnensation }}</h4>\n  <br>\n  <p><strong>Your updated summary</strong></p>\n  <p>{{ $('AI Agent').item.json.output.summary }}</p>\n  <br>\n  <p><strong>General Feedback</strong></p>\n  {{ $json.feedback }}\n  <br>\n  <p><strong>Suggested Experience Bullets</strong></p>\n  {{ $json.skills }}\n  <br>\n  <p><strong>Areas Where You Are Lacking</strong></p>\n  {{ $json.lacking }}\n  <br>\n  <p><strong>Sample Cover Letter</strong></p>\n  <p>{{ $('AI Agent').item.json.output['cover-letter'] }}</p>\n</div> \n  ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1008,
+        0
+      ],
+      "id": "24774386-8971-4641-8e64-a93e8b018905",
+      "name": "Send a message",
+      "webhookId": "b52fbc7c-65fb-4800-920d-120c27914d83",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "7FRBZfhQG0r3Q1ND",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Access the entire JSON output of the previous node\nconst incomingData = $input.first().json;\n// Access the 'output' object\nconst output = incomingData.output;\n\nconst skillsBullets = output[\"skills-bullets\"] || []; \nconst feedbackList = output.feedback || [];\nconst skillsLacking = output[\"skills-lacking\"] || []; \n\nlet skillsBulletsHTML = \"\";\nlet feedbackHTML = \"\";\nlet skillsLackingHTML = \"\";\n\n// generate HTML for skills-bullets\nif(skillsBullets.length > 0) {\n  skillsBulletsHTML += \"<ul>\";\n  for(const item of skillsBullets) {\n    const safeItem = item.replace(/&/g, '&amp;')\n                         .replace(/</g, '&lt;')\n                         .replace(/>/g, '&gt;')\n                         .replace(/\"/g, '&quot;')\n                         .replace(/'/g, '&#039;');\n    skillsBulletsHTML += `<li>${safeItem}</li>`\n  }\n  skillsBulletsHTML += \"</ul>\";\n} else {\n  skillsBulletsHTML = \"<p>No suggestive bullet points</p>\";\n}\n\n// generate HTML for feedback\nif(feedbackList.length > 0) {\n  feedbackHTML += \"<ul>\";\n  for(const item of feedbackList) {\n    const safeItem = item.replace(/&/g, '&amp;')\n                         .replace(/</g, '&lt;')\n                         .replace(/>/g, '&gt;')\n                         .replace(/\"/g, '&quot;')\n                         .replace(/'/g, '&#039;');\n    feedbackHTML += `<li>${safeItem}</li>`\n  }\n  feedbackHTML += \"</ul>\";\n} else {\n  feedbackHTML = \"<p>No feedback</p>\";\n}\n\n// generate HTML for skills-lacking\nif(skillsLacking.length > 0) {\n  skillsLackingHTML += \"<ul>\";\n  for(const item of skillsLacking) {\n    const safeItem = item.replace(/&/g, '&amp;')\n                         .replace(/</g, '&lt;')\n                         .replace(/>/g, '&gt;')\n                         .replace(/\"/g, '&quot;')\n                         .replace(/'/g, '&#039;');\n    skillsLackingHTML += `<li>${safeItem}</li>`\n  }\n  skillsLackingHTML += \"</ul>\";\n} else {\n  skillsLackingHTML = \"<p>Not lacking any skills. You are ready to apply!</p>\";\n}\n\n\nreturn [\n  {\n    json: {\n      feedback: feedbackHTML,\n      skills: skillsBulletsHTML,\n      lacking: skillsLackingHTML\n    }\n  }\n]\n\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        816,
+        0
+      ],
+      "id": "54c17120-0af7-4f4e-9c17-ab1f3d4c1c50",
+      "name": "Code"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e7035a4e-a30a-4504-bb6d-0c44eef3615c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1b38ee9106c5854a6bfc91c670890eb2cb6a3d81e5213f6847c9e72400855ee9"
+  },
+  "id": "K5b3FjGIHnFJp1yS",
+  "tags": []
+}
