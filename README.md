@@ -113,6 +113,9 @@ Several challenges arose during development:
 
 2.  **AI Output Formatting for Email:** While LLMs are excellent at generating text, their raw output (even in Markdown) isn't always perfectly suited for direct insertion into an HTML email. Specifically, converting the AI's array-based feedback (like bullet points) into a properly structured HTML list (`<ul><li>...</li></ul>`) for the email client required careful handling. This necessitated the use of a dedicated **Code node** within n8n. This node acts as a crucial transformation layer, taking the AI's structured data and dynamically generating the necessary HTML markup, ensuring a polished and readable email for the end-user.
 
+3.  **Dynamic Job Posting Extraction:** A significant challenge emerged when attempting to extract job posting content from websites that do not provide dedicated, clean pages for each job (e.g., certain job boards or platforms like LinkedIn, where job details are often embedded within a larger, dynamic page structure). The AI agent sometimes struggled to accurately **discern and isolate the precise job description text** from surrounding navigational elements, advertisements, or unrelated content. This highlights the complexity of web scraping and content extraction when a clear, isolated text block is not consistently available.
+
+
 #### How Did I Ensure That the AI Returned JSON Reliably?
 
 Ensuring the AI consistently returned data in a structured JSON format was critical for programmatic use in subsequent n8n nodes. I employed a two-pronged strategy:
