@@ -1,4 +1,4 @@
-# 🤖 AI-Powered Resume & Job Match Optimizer (n8n Workflow)
+# AI-Powered Resume & Job Match Optimizer (n8n Workflow)
 
 <img width="1476" height="550" alt="workflow" src="https://github.com/user-attachments/assets/50348187-1775-417c-b99a-ca3b232b8fae" />
 
@@ -8,7 +8,7 @@ Navigating the modern job market often means meticulously tailoring your resume 
 
 This AI Agent takes your existing resume content and a target job posting, analyzes them both, and then generates specific suggestions on how to improve your resume's alignment with the job role. The goal is to help you optimize your resume's content, highlight relevant skills, and significantly increase your chances of landing an interview.
 
-### ✨ Key Features
+### Key Features
 
 * **Intelligent Analysis:** Deeply analyzes both your resume's content and the requirements outlined in a job description.
 
@@ -22,7 +22,7 @@ This AI Agent takes your existing resume content and a target job posting, analy
 
 * **OpenAI Integration:** Powered by advanced Large Language Models (LLMs) for nuanced understanding and intelligent feedback generation.
 
-### 🚀 Technologies Used
+### Technologies Used
 
 * **n8n:** Workflow automation platform
 
@@ -34,7 +34,7 @@ This AI Agent takes your existing resume content and a target job posting, analy
 
 * **Git/GitHub:** For version control and collaborative development.
 
-### 💡 How to Use / Get Started
+### How to Use / Get Started
 
 This project is an n8n workflow, meaning it runs on an n8n instance.
 
@@ -77,7 +77,7 @@ This project is an n8n workflow, meaning it runs on an n8n instance.
 
     **Note on API Keys (Bring Your Own Key - BYOK):**
     
-### 🎯 Why This Project?
+### Why This Project?
 
 This project serves as a practical demonstration of how AI and automation can be combined to solve real-world challenges in career development. It showcases:
 
@@ -87,7 +87,7 @@ This project serves as a practical demonstration of how AI and automation can be
 
 * Building robust and secure automated workflows.
 
-### 🛠️ Behind the Scenes: Design & Development Insights
+### Behind the Scenes: Design & Development Insights
 
 Developing this AI-powered resume reviser involved a thoughtful approach to agent design, navigating specific technical challenges, and ensuring the reliability of AI-generated output.
 
